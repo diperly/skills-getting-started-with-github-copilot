@@ -38,6 +38,42 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Natación": {
+        "description": "Clases de natación para todos los niveles",
+        "schedule": "Lunes y Miércoles, 4:00 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Baloncesto": {
+        "description": "Entrenamiento y práctica de baloncesto",
+        "schedule": "Martes y Jueves, 5:00 PM - 6:30 PM",
+        "max_participants": 20,
+        "participants": []
+    },
+    "Escultura": {
+        "description": "Taller de escultura con diferentes materiales",
+        "schedule": "Viernes, 3:00 PM - 5:00 PM",
+        "max_participants": 10,
+        "participants": []
+    },
+    "Dibujo": {
+        "description": "Clases de dibujo para principiantes y avanzados",
+        "schedule": "Sábados, 10:00 AM - 12:00 PM",
+        "max_participants": 15,
+        "participants": []
+    },
+    "Sudoku": {
+        "description": "Desafíos de Sudoku para mejorar la lógica",
+        "schedule": "Lunes, 6:00 PM - 7:00 PM",
+        "max_participants": 25,
+        "participants": []
+    },
+    "Debate": {
+        "description": "Club de debate para desarrollar habilidades de argumentación",
+        "schedule": "Miércoles, 6:00 PM - 7:30 PM",
+        "max_participants": 20,
+        "participants": []
     }
 }
 
@@ -61,6 +97,14 @@ def signup_for_activity(activity_name: str, email: str):
 
     # Get the specific activity
     activity = activities[activity_name]
+
+    # Validate student is not already signed up
+    if email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Student is already signed up")
+
+    # Validate capacity
+    if len(activity["participants"]) >= activity["max_participants"]:
+        raise HTTPException(status_code=400, detail="Activity is full")
 
     # Add student
     activity["participants"].append(email)
